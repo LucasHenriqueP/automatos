@@ -51,13 +51,16 @@ class Estado:
         self.trans.append(trans)
 
 class Controle:
-    def __init__(self, inicio, fim):
+    def __init__(self, inicio):
         self.inicio = inicio
         self.estados = list()
-        self.fim = fim
+        self.fim = list()
 
     def addEstado(self, estado):
         self.estados.append(estado)
+
+    def addFim(self, fim):
+        self.fim.append(fim)
 
 def setup():
     arq = sys.argv[1]
@@ -81,31 +84,42 @@ def setup():
         sys.exit()
     fita = Fita(entrada, 0, alfabeto)
     line = f.readline()
-    line = f.readline()
-    estados = line.replace(" ", "")
-    line = f.readline()
+    line = f.readline() # linha 4 conjunto de estados
+    line = line.replace("\n", "")
+    estados = line.split(" ")
+    print(estados[2])
+    line = f.readline() #linha 5
     inicio = int(line)
-    line = f.readline()
-    control = Controle(inicio, line)
+    line = f.readline() #linha 6 conjunto finais
+    line = line.replace("\n", "")
+    finais = line.split(" ")
+    print(finais)
+    control = Controle(inicio)
+    for i in range(len(finais)):
+        control.addFim(finais[i])
     for i in range(len(estados)):
         est = Estado(str(i))
         control.addEstado(est)
     line = f.readline()
     for line in f:
         trans = line.replace("\n", '')
-        trans = trans.replace(" ", "")
+        trans = trans.split(" ")
+
         pos = int(trans[0])
+
         next = int(trans[1])
+
         transicao = Transicao(trans[2], trans[3], trans[4], next)
         control.estados[pos].addTransicao(transicao)
-  
+
     for i in range(len(control.estados)):
         for j in range(len(control.estados[i].trans)):
-            print(control.estados[i].trans[j])
+            print("Sou o estado %d" %(i),  control.estados[i].trans[j])
 
 
 def main():
     setup()
+
     # my code here
 
 if __name__ == "__main__":
