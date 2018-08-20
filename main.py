@@ -1,3 +1,7 @@
+import sys
+import string
+
+
 class Fita:
     def __init__(self, conteudo, pos, alfabeto):
         self.conteudo = list(conteudo)
@@ -47,25 +51,64 @@ class Estado:
         self.trans.append(trans)
 
 class Controle:
-    def __init__(self, inicio):
+    def __init__(self, inicio, fim):
         self.inicio = inicio
         self.estados = list()
+        self.fim = fim
 
     def addEstado(self, estado):
         self.estados.append(estado)
 
+def setup():
+    arq = sys.argv[1]
+    entrada = sys.argv[2]
+    entrada = entrada.replace(" ", "")
+    #entrada = list(entrada)
+    print(type(entrada))
+    f = open(arq, 'r')
+    line = f.readline()
+    line = f.readline()
+    alfabeto = line.replace(' ', '')
+    #alfabeto = list(alfabeto)
+    print(type(alfabeto))
+    count = 0
+    for i in range(len(entrada)):
+        for j in range(len(alfabeto)):
+            if entrada[i] == alfabeto[j]:
+                count += 1
+    if count != len(entrada):
+        print("ENTRADA NAO VALIDA")
+        sys.exit()
+    fita = Fita(entrada, 0, alfabeto)
+    line = f.readline()
+    line = f.readline()
+    estados = line.replace(" ", "")
+    line = f.readline()
+    inicio = int(line)
+    line = f.readline()
+    control = Controle(inicio, line)
+    for i in range(len(estados)):
+        est = Estado(str(i))
+        control.addEstado(est)
+    line = f.readline()
+    for line in f:
+        trans = line.replace("\n", '')
+        trans = trans.replace(" ", "")
+        pos = int(trans[0])
+        next = int(trans[1])
+        transicao = Transicao(trans[2], trans[3], trans[4], next)
+        control.estados[pos].addTransicao(transicao)
+  
+    for i in range(len(control.estados)):
+        for j in range(len(control.estados[i].trans)):
+            print(control.estados[i].trans[j])
+
+
+def main():
+    setup()
+    # my code here
+
+if __name__ == "__main__":
+    main()
+
 # TESTANDO TUDO
-fita = Fita('abbcc', 0, 'abcB#')
-print(fita)
-print(fita.getConteudo())
-fita.mover('#', 'R')
-print(fita.getConteudo())
-print(fita)
-
-trans = Transicao('a', '#', 'D', '2')
-#print(trans)
-
-q0 = Estado('0')
-q0.addTransicao(trans)
-for i in range(len(q0.trans)):
-    print(q0.trans[i])
