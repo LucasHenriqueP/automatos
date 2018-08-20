@@ -1,0 +1,15 @@
+a b c
+B a b c
+B
+0 1 2 3 4
+0
+3
+3
+0 0 a a R B a R B B S
+0 1 B B S B B L B B S
+0 2 b b R B B S B b R
+1 3 B B S B B S B B S
+2 2 b b R B B S B b R
+2 4 c c S B B L B B L
+4 3 B B S B B S B B S
+4 4 c c R a a L b b L

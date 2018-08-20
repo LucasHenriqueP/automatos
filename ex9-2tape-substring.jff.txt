@@ -1,0 +1,21 @@
+a b
+B a b
+B
+0 1 2
+0
+2
+2
+0 0 a a S b b R
+0 0 b b S b b R
+0 0 a a S a a R
+0 0 b b S a a R
+0 1 b b R b b R
+0 1 a a R a a R
+0 2 B B S b b R
+0 2 B B S a a R
+0 2 B B S B B S
+1 1 b b R b b R
+1 1 a a R a a R
+1 2 B B S a a R
+1 2 B B S B B S
+1 2 B B S b b R

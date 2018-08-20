@@ -1,0 +1,16 @@
+a b
+B a b
+B
+0 1 2 3
+0
+3
+1
+0 0 b b R
+0 1 a a R
+0 2 B B L
+1 0 b b R
+1 0 a b R
+1 2 B B L
+2 2 a a L
+2 2 b b L
+2 3 B B R

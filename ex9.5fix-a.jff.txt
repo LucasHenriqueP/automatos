@@ -1,0 +1,23 @@
+X a b
+B X a b
+B
+0 1 2 3 4 5
+0
+5
+1
+0 0 X X R
+0 0 a a R
+0 1 b X L
+0 5 B B R
+1 1 a a L
+1 1 X X L
+1 2 B B R
+2 2 b b R
+2 2 X X R
+2 3 a X R
+3 3 X X R
+3 3 b b R
+3 4 a X L
+4 0 B B R
+4 4 X X L
+4 4 b b L

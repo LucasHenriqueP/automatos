@@ -77,14 +77,15 @@ def run(control, fita):
     while(parada):
         controle = control.estados[control.getInicio()]
         for i in range(len(control.fim)):
-            if control.getInicio() == control.fim[i]:
+            if control.getInicio() == control.fim[i]: #Se o Inicio esta em um dos Estados de Fim
                 parada = 0
         for i in range(len(controle.trans)):
+            parada = 0; #Linha Caso o IF abaixo não encontre o dado no Estado Atual, ira Crashar/Sair
             if fita.getConteudo() == controle.trans[i].getDado() :
                 
                 fita.mover(controle.trans[i].getEscrever(),controle.trans[i].getDirecao())
                 control.setInicio(controle.trans[i].getNextState())
-                parada = 0            
+                parada = 1      #Se encontrar o dado na tabela de Transição ira continuar      
     print(fita) 
 
 

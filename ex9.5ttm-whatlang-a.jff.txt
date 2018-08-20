@@ -1,0 +1,12 @@
+a b
+B a b
+B
+0 1 2 3
+0
+3
+2
+0 0 a a R B a R
+0 1 b b S B B L
+1 2 b b R a a S
+1 3 B B R B B R
+2 1 b b R a a L

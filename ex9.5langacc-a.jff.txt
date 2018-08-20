@@ -1,0 +1,21 @@
+X a b
+B X a b
+B
+0 1 2 3 4 5 6 7
+0
+7
+1
+0 1 a X R
+1 1 a a R
+1 2 b X R
+1 4 X X R
+2 3 b X L
+3 3 X X L
+3 5 a a L
+3 6 B B R
+4 2 b X R
+4 4 X X R
+5 0 X X R
+5 5 a a L
+6 6 X X R
+6 7 B B R
