@@ -15,23 +15,19 @@ class Fita:
         self.conteudo[self.pos] = novo
     def mover(self, novo, direcao):
         direcao.upper()
-    
         if direcao == 'R': 
             tmp = self.pos+ 1
-            if(tmp > len(self.conteudo) ): #Caso A Maquina Queira adicionar Algo na Frente do Conteudo
-                self.Conteudo.append(novo)
-                self.Conteudo.append('B')
+            if(tmp > len(self.conteudo)-1 ): #Caso A Maquina Queira adicionar Algo na Frente do Conteudo
+                self.setConteudo(novo)
+                self.conteudo.append('B')
             else:
                 self.setConteudo(novo)
-
             self.pos += 1
 
         elif direcao == 'L':
             tmp = self.pos-1
             if(tmp < 0):
                 self.conteudo.insert(0,novo)
-                print('aa')
-                self.pos -= 1
             else:
                 self.setConteudo(novo)
                 self.pos -= 1
@@ -131,8 +127,9 @@ def setup():
         print("ENTRADA NAO VALIDA")
         sys.exit()
 
-    fita = Fita(entrada, 0, alfabeto)
+    fita = Fita(entrada, 1, alfabeto)
     fita.conteudo.append('B') #Adiciona um Branco no Final
+    fita.conteudo.insert(0,'B')
     line = f.readline()
     line = f.readline() # linha 4 conjunto de estados
     line = line.replace("\n", "")
@@ -163,8 +160,8 @@ def setup():
         control.estados[pos].addTransicao(transicao)
 
 #    for i in range(len(control.estados)):
- #       for j in range(len(control.estados[i].trans)):
-  #          print("Sou o estado %d" %(i),  control.estados[i].trans[j])
+#        for j in range(len(control.estados[i].trans)):
+#            print("Sou o estado %d" %(i),  control.estados[i].trans[j])
 
     run(control, fita)
 
