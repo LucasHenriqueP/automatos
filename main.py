@@ -66,28 +66,33 @@ class Controle:
         self.fim.append(fim)
 
     def getInicio(self):
-        return self.inicio
+        for i in range(len(self.estados)):
+            if self.estados[i].getNome() == str(self.inicio):
+                print("ID: %d  Nome do Estados: %s Nome do Fim: %s"%(i,self.estados[i].getNome(), self.fim[0]))
+                return i
 
     def setInicio(self, inicio):
         self.inicio = inicio
 
 def run(control, fita):
-    print(fita)
     parada = 1
     while(parada):
+        print(fita)
         controle = control.estados[control.getInicio()]
         for i in range(len(control.fim)):
-            if control.getInicio() == control.fim[i]: #Se o Inicio esta em um dos Estados de Fim
+            if control.estados[control.getInicio()].getNome() == str(control.fim[i]): #Se o Inicio esta em um dos Estados de Fim
                 parada = 0
-        for i in range(len(controle.trans)):
-            parada = 0; #Linha Caso o IF abaixo não encontre o dado no Estado Atual, ira Crashar/Sair
-            if fita.getConteudo() == controle.trans[i].getDado() :
-                
-                fita.mover(controle.trans[i].getEscrever(),controle.trans[i].getDirecao())
-                control.setInicio(controle.trans[i].getNextState())
-                parada = 1      #Se encontrar o dado na tabela de Transição ira continuar      
-    print(fita) 
-
+                break
+        if parada != 0:
+            for i in range(len(controle.trans)):
+                parada = 0; #Linha Caso o IF abaixo não encontre o dado no Estado Atual, ira Crashar/Sair
+                if fita.getConteudo() == controle.trans[i].getDado() :
+                    fita.mover(controle.trans[i].getEscrever(),controle.trans[i].getDirecao())
+                    control.setInicio(controle.trans[i].getNextState())
+                    print(control.getInicio())
+                    parada = 1      #Se encontrar o dado na tabela de Transição ira continuar      
+                    break
+    print(fita)
 
 def setup():
     arq = sys.argv[1]
@@ -114,7 +119,7 @@ def setup():
     line = f.readline() # linha 4 conjunto de estados
     line = line.replace("\n", "")
     estados = line.split(" ")
-    #print(estados[2])
+   # print(estados[4])
     line = f.readline() #linha 5
     inicio = int(line)
     line = f.readline() #linha 6 conjunto finais
@@ -125,7 +130,7 @@ def setup():
     for i in range(len(finais)):
         control.addFim(finais[i])
     for i in range(len(estados)):
-        est = Estado(str(i))
+        est = Estado(str(estados[i]))
         control.addEstado(est)
     line = f.readline()
     for line in f:
@@ -139,9 +144,9 @@ def setup():
         transicao = Transicao(trans[2], trans[3], trans[4], next)
         control.estados[pos].addTransicao(transicao)
 
-    for i in range(len(control.estados)):
-        for j in range(len(control.estados[i].trans)):
-            print("Sou o estado %d" %(i),  control.estados[i].trans[j])
+#    for i in range(len(control.estados)):
+ #       for j in range(len(control.estados[i].trans)):
+  #          print("Sou o estado %d" %(i),  control.estados[i].trans[j])
 
     run(control, fita)
 
