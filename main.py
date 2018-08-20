@@ -46,6 +46,9 @@ class Estado:
     def __init__(self, nome):
         self.nome = nome
         self.trans = list()
+    
+    def getNome(self):
+        return self.nome
 
     def addTransicao(self, trans):
         self.trans.append(trans)
@@ -62,18 +65,41 @@ class Controle:
     def addFim(self, fim):
         self.fim.append(fim)
 
+    def getInicio(self):
+        return self.inicio
+
+    def setInicio(self, inicio):
+        self.inicio = inicio
+
+def run(control, fita):
+    print(fita)
+    parada = 1
+    while(parada):
+        controle = control.estados[control.getInicio()]
+        for i in range(len(control.fim)):
+            if control.getInicio() == control.fim[i]:
+                parada = 0
+        for i in range(len(controle.trans)):
+            if fita.getConteudo() == controle.trans[i].getDado() :
+                
+                fita.mover(controle.trans[i].getEscrever(),controle.trans[i].getDirecao())
+                control.setInicio(controle.trans[i].getNextState())
+                parada = 0            
+    print(fita) 
+
+
 def setup():
     arq = sys.argv[1]
     entrada = sys.argv[2]
     entrada = entrada.replace(" ", "")
     #entrada = list(entrada)
-    print(type(entrada))
+    #print(type(entrada))
     f = open(arq, 'r')
     line = f.readline()
     line = f.readline()
     alfabeto = line.replace(' ', '')
     #alfabeto = list(alfabeto)
-    print(type(alfabeto))
+    #print(type(alfabeto))
     count = 0
     for i in range(len(entrada)):
         for j in range(len(alfabeto)):
@@ -87,13 +113,13 @@ def setup():
     line = f.readline() # linha 4 conjunto de estados
     line = line.replace("\n", "")
     estados = line.split(" ")
-    print(estados[2])
+    #print(estados[2])
     line = f.readline() #linha 5
     inicio = int(line)
     line = f.readline() #linha 6 conjunto finais
     line = line.replace("\n", "")
     finais = line.split(" ")
-    print(finais)
+    #print(finais)
     control = Controle(inicio)
     for i in range(len(finais)):
         control.addFim(finais[i])
@@ -116,6 +142,7 @@ def setup():
         for j in range(len(control.estados[i].trans)):
             print("Sou o estado %d" %(i),  control.estados[i].trans[j])
 
+    run(control, fita)
 
 def main():
     setup()
