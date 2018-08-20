@@ -19,7 +19,7 @@ class Fita:
             self.setConteudo(novo)
             self.pos += 1
         elif direcao == 'L':
-            setConteudo(novo)
+            self.setConteudo(novo)
             self.pos -= 1
 
 
@@ -68,7 +68,7 @@ class Controle:
     def getInicio(self):
         for i in range(len(self.estados)):
             if self.estados[i].getNome() == str(self.inicio):
-                print("ID: %d  Nome do Estados: %s Nome do Fim: %s"%(i,self.estados[i].getNome(), self.fim[0]))
+               # print("ID: %d  Nome do Estados: %s Nome do Fim: %s"%(i,self.estados[i].getNome(), self.fim[0]))
                 return i
 
     def setInicio(self, inicio):
@@ -76,6 +76,7 @@ class Controle:
 
 def run(control, fita):
     parada = 1
+    #fita.mover('B', 'R')
     while(parada):
         print(fita)
         controle = control.estados[control.getInicio()]
@@ -87,9 +88,10 @@ def run(control, fita):
             for i in range(len(controle.trans)):
                 parada = 0; #Linha Caso o IF abaixo não encontre o dado no Estado Atual, ira Crashar/Sair
                 if fita.getConteudo() == controle.trans[i].getDado() :
+                    #print('VALOR DO I [%d]'%(i))
                     fita.mover(controle.trans[i].getEscrever(),controle.trans[i].getDirecao())
                     control.setInicio(controle.trans[i].getNextState())
-                    print(control.getInicio())
+                    print('Estado Atual [%d] -Antigo [%s] -  Foi Escrito [%s] - A Direção [%s]'%(control.getInicio(),controle.trans[i].getDado(), controle.trans[i].getEscrever(),controle.trans[i].getDirecao()))
                     parada = 1      #Se encontrar o dado na tabela de Transição ira continuar      
                     break
     print(fita)
