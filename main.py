@@ -15,7 +15,7 @@ class Fita:
         self.conteudo[self.pos] = novo
     def mover(self, novo, direcao):
         direcao.upper()
-        if direcao == 'R': 
+        if direcao == 'R':
             tmp = self.pos+ 1
             if(tmp > len(self.conteudo)-1 ): #Caso A Maquina Queira adicionar Algo na Frente do Conteudo
                 self.setConteudo(novo)
@@ -56,7 +56,7 @@ class Estado:
     def __init__(self, nome):
         self.nome = nome
         self.trans = list()
-    
+
     def getNome(self):
         return self.nome
 
@@ -102,7 +102,7 @@ def run(control, fita):
                     fita.mover(controle.trans[i].getEscrever(),controle.trans[i].getDirecao())
                     control.setInicio(controle.trans[i].getNextState())
                     print('Estado Atual [%d] -Antigo [%s] -  Foi Escrito [%s] - A Direção [%s]'%(control.getInicio(),controle.trans[i].getDado(), controle.trans[i].getEscrever(),controle.trans[i].getDirecao()))
-                    parada = 1      #Se encontrar o dado na tabela de Transição ira continuar      
+                    parada = 1      #Se encontrar o dado na tabela de Transição ira continuar
                     break
     print(fita)
 
@@ -134,6 +134,9 @@ def setup():
     line = f.readline() # linha 4 conjunto de estados
     line = line.replace("\n", "")
     estados = line.split(" ")
+    estados = list(map(int, estados))
+    estados.sort()
+    print(estados)
    # print(estados[4])
     line = f.readline() #linha 5
     inicio = int(line)
