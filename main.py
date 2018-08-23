@@ -1,91 +1,11 @@
 import sys
 import string
 
-
-class Fita:
-    def __init__(self, conteudo, pos, alfabeto, branco):
-        self.conteudo = list(conteudo)
-        self.pos = pos
-        self.alfabeto = alfabeto
-        self.branco = branco
-    def __str__(self):
-        return "Conteudo da Fita é %s\nE a cabeça de leitura está na posição %d" % (self.conteudo, self.pos)
-    def getBranco(self):
-        return self.branco
-    def getConteudo(self):
-        return self.conteudo[self.pos]
-    def setConteudo(self, novo):
-        self.conteudo[self.pos] = novo
-    def mover(self, novo, direcao):
-        direcao.upper()
-        if direcao == 'R':
-            tmp = self.pos+ 1
-            if(tmp > len(self.conteudo)-1 ): #Caso A Maquina Queira adicionar Algo na Frente do Conteudo
-                self.setConteudo(novo)
-                self.conteudo.append(self.getBranco())
-            else:
-                self.setConteudo(novo)
-            self.pos += 1
-
-        elif direcao == 'L':
-            tmp = self.pos-1
-            if(tmp < 0):
-                self.conteudo.insert(0,novo)
-            else:
-                self.setConteudo(novo)
-                self.pos -= 1
+from classes.fita import Fita
+from classes.estado import *
+from classes.controle import Controle
 
 
-class Transicao:
-    def __init__(self, dado, escrever, direcao, nextState):
-        self.dado = dado
-        self.escrever = escrever
-        self.direcao = direcao
-        self.nextState = nextState
-
-    def __str__(self):
-        return("Se o conteudo for (%s) vou para o estado (%s), a fita vai ter escrito (%c) e vai para a direcao (%s)" % (self.dado, self.nextState, self.escrever, self.direcao))
-
-    def getDado(self):
-        return self.dado
-    def getEscrever(self):
-        return self.escrever
-    def getDirecao(self):
-        return self.direcao
-    def getNextState(self):
-        return self.nextState
-
-class Estado:
-    def __init__(self, nome):
-        self.nome = nome
-        self.trans = list()
-
-    def getNome(self):
-        return self.nome
-
-    def addTransicao(self, trans):
-        self.trans.append(trans)
-
-class Controle:
-    def __init__(self, inicio):
-        self.inicio = inicio
-        self.estados = list()
-        self.fim = list()
-
-    def addEstado(self, estado):
-        self.estados.append(estado)
-
-    def addFim(self, fim):
-        self.fim.append(fim)
-
-    def getInicio(self):
-        for i in range(len(self.estados)):
-            if self.estados[i].getNome() == str(self.inicio):
-               # print("ID: %d  Nome do Estados: %s Nome do Fim: %s"%(i,self.estados[i].getNome(), self.fim[0]))
-                return i
-
-    def setInicio(self, inicio):
-        self.inicio = inicio
 
 def run(control, fita):
     parada = 1
@@ -96,7 +16,7 @@ def run(control, fita):
             if control.estados[control.getInicio()].getNome() == str(control.fim[i]): #Se o Inicio esta em um dos Estados de Fim
                 parada = 0
                 print("ENCONTROU O ESTADO FINAL [%s]"%(control.fim[i]))
-                break
+                exit(0)
         if parada != 0:
             print(fita)
             for i in range(len(controle.trans)):
@@ -113,14 +33,10 @@ def setup():
     arq = sys.argv[1]
     entrada = sys.argv[2]
     entrada = entrada.replace(" ", "")
-    #entrada = list(entrada)
-    #print(type(entrada))
     f = open(arq, 'r')
     line = f.readline()
     line = f.readline()
     alfabeto = line.replace(' ', '')
-    #alfabeto = list(alfabeto)
-    #print(type(alfabeto))
     count = 0
     for i in range(len(entrada)):
         for j in range(len(alfabeto)):
@@ -142,7 +58,6 @@ def setup():
     estados = list(map(int, estados))
     estados.sort()
     print(estados)
-   # print(estados[4])
     line = f.readline() #linha 5
     inicio = int(line)
     line = f.readline() #linha 6 conjunto finais
@@ -160,7 +75,6 @@ def setup():
         trans = trans.split(" ")
 
         pos = int(trans[0])
-
         next = int(trans[1])
 
         transicao = Transicao(trans[2], trans[3], trans[4], next)
@@ -175,9 +89,7 @@ def setup():
 def main():
     setup()
 
-    # my code here
+
 
 if __name__ == "__main__":
     main()
-
-# TESTANDO TUDO
