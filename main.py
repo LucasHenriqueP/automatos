@@ -3,12 +3,15 @@ import string
 
 
 class Fita:
-    def __init__(self, conteudo, pos, alfabeto):
+    def __init__(self, conteudo, pos, alfabeto, branco):
         self.conteudo = list(conteudo)
         self.pos = pos
         self.alfabeto = alfabeto
+        self.branco = branco
     def __str__(self):
         return "Conteudo da Fita é %s\nE a cabeça de leitura está na posição %d" % (self.conteudo, self.pos)
+    def getBranco(self):
+        return self.branco
     def getConteudo(self):
         return self.conteudo[self.pos]
     def setConteudo(self, novo):
@@ -19,7 +22,7 @@ class Fita:
             tmp = self.pos+ 1
             if(tmp > len(self.conteudo)-1 ): #Caso A Maquina Queira adicionar Algo na Frente do Conteudo
                 self.setConteudo(novo)
-                self.conteudo.append('B')
+                self.conteudo.append(self.getBranco())
             else:
                 self.setConteudo(novo)
             self.pos += 1
@@ -127,10 +130,12 @@ def setup():
         print("ENTRADA NAO VALIDA")
         sys.exit()
 
-    fita = Fita(entrada, 1, alfabeto)
-    fita.conteudo.append('B') #Adiciona um Branco no Final
-    fita.conteudo.insert(0,'B')
-    line = f.readline()
+    line = f.readline() # Linha 3, caracter que representa o branco
+    line = line.replace("\n", '')
+    fita = Fita(entrada, 1, alfabeto, line)
+    fita.conteudo.append(fita.getBranco()) #Adiciona um Branco no Final
+    fita.conteudo.insert(0, fita.getBranco())
+
     line = f.readline() # linha 4 conjunto de estados
     line = line.replace("\n", "")
     estados = line.split(" ")
@@ -143,7 +148,6 @@ def setup():
     line = f.readline() #linha 6 conjunto finais
     line = line.replace("\n", "")
     finais = line.split(" ")
-    #print(finais)
     control = Controle(inicio)
     for i in range(len(finais)):
         control.addFim(finais[i])
