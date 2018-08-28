@@ -1,8 +1,16 @@
+class SuperControle:
+    def __init__(self, padraoEstados):
+        self.padraoEstados = list()
+        self.controles = list()
+
+    def addControle(self, controle):
+        self.controles.append(controle)
+
 class Controle:
-    def __init__(self, inicio):
+    def __init__(self, inicio, estados, fim):
         self.inicio = inicio
-        self.estados = list()
-        self.fim = list()
+        self.estados = estados
+        self.fim = fim
 
     def addEstado(self, estado):
         self.estados.append(estado)

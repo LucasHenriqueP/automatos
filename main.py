@@ -5,11 +5,8 @@ from classes.fita import Fita
 from classes.estado import *
 from classes.controle import Controle
 
-
-
 def run(control, fita):
     parada = 1
-    #fita.mover('B', 'R')
     while(parada):
         controle = control.estados[control.getInicio()]
         for i in range(len(control.fim)):
@@ -34,42 +31,49 @@ def setup():
     entrada = sys.argv[2]
     entrada = entrada.replace(" ", "")
     f = open(arq, 'r')
-    line = f.readline()
-    line = f.readline()
+    line = f.readline() #Linha 1 - Alfabeto de Entrada
+    line = f.readline() #Linha 2 - Alfabeto da Fita
     alfabeto = line.replace(' ', '')
     count = 0
+
     for i in range(len(entrada)):
         for j in range(len(alfabeto)):
             if entrada[i] == alfabeto[j]:
                 count += 1
+
     if count != len(entrada):
         print("ENTRADA NAO VALIDA")
         sys.exit()
 
-    line = f.readline() # Linha 3, caracter que representa o branco
+    line = f.readline() #Linha 3 - Simbolo que representa o Branco
     line = line.replace("\n", '')
     fita = Fita(entrada, 1, alfabeto, line)
     fita.conteudo.append(fita.getBranco()) #Adiciona um Branco no Final
-    fita.conteudo.insert(0, fita.getBranco())
+    fita.conteudo.insert(0, fita.getBranco()) #Adiciona um Branco no Inicio
 
-    line = f.readline() # linha 4 conjunto de estados
+    line = f.readline() #Linha 4 - Conjunto de Estados
     line = line.replace("\n", "")
     estados = line.split(" ")
     estados = list(map(int, estados))
-    estados.sort()
-    print(estados)
-    line = f.readline() #linha 5
+    estados.sort() #Ordena os Estados
+
+    line = f.readline() #Linha 5 - Estado Inicial
     inicio = int(line)
-    line = f.readline() #linha 6 conjunto finais
+
+    line = f.readline() #Linha 6 - Conjunto de Estados Finais
     line = line.replace("\n", "")
     finais = line.split(" ")
-    control = Controle(inicio)
-    for i in range(len(finais)):
-        control.addFim(finais[i])
+
+    est = list()
     for i in range(len(estados)):
-        est = Estado(str(estados[i]))
-        control.addEstado(est)
-    line = f.readline()
+        est.append(Estado(str(estados[i])))
+        
+    superEstados = SuperEstado(est, finais);
+
+    control = Controle(inicio, superEstados.getEstados(), superEstados.getFinais())
+
+    line = f.readline() #Linha 7 - Quantidade de Fitas
+
     for line in f:
         trans = line.replace("\n", '')
         trans = trans.split(" ")
@@ -88,8 +92,6 @@ def setup():
 
 def main():
     setup()
-
-
 
 if __name__ == "__main__":
     main()

@@ -1,3 +1,14 @@
+class SuperEstado:
+    def __init__(self, padraoEstados,padraoFinais):
+        self.padraoEstados = padraoEstados
+        self.padraoFinais = padraoFinais
+
+    def getEstados(self):
+        return self.padraoEstados
+
+    def getFinais(self):
+        return self.padraoFinais
+
 class Estado:
     def __init__(self, nome):
         self.nome = nome
@@ -26,4 +37,4 @@ class Transicao:
     def getDirecao(self):
         return self.direcao
     def getNextState(self):
-        return self.nextState        
+        return self.nextState
