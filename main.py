@@ -49,30 +49,6 @@ def run(control, SuperControle, SuperEstado):
         pass
     print(fita)
 
-def run2(control, fita):
-    parada = 1
-
-
-    while(parada):
-        controle = control.estados[control.getInicio()]
-        for i in range(len(control.fim)):
-            if control.estados[control.getInicio()].getNome() == str(control.fim[i]): #Se o Inicio esta em um dos Estados de Fim
-                parada = 0
-                print("ENCONTROU O ESTADO FINAL [%s]"%(control.fim[i]))
-                #exit(0)
-                return 0
-        if parada != 0:
-            print(fita)
-            for i in range(len(controle.trans)):
-                parada = 0; #Linha Caso o IF abaixo não encontre o dado no Estado Atual, ira Crashar/Sair
-                if fita.getConteudo() == controle.trans[i].getDado() :
-                    fita.mover(controle.trans[i].getEscrever(),controle.trans[i].getDirecao())
-                    control.setInicio(controle.trans[i].getNextState())
-                    print('Estado Atual [%d] -Antigo [%s] -  Foi Escrito [%s] - A Direção [%s]'%(control.getInicio(),controle.trans[i].getDado(), controle.trans[i].getEscrever(),controle.trans[i].getDirecao()))
-                    parada = 1      #Se encontrar o dado na tabela de Transição ira continuar
-                    break
-    print(fita)
-
 def setup():
 
 #----------------- Começo do Scraping --------------
