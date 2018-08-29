@@ -151,7 +151,7 @@ def setup():
 
     for i in range(len(superControle.controles)):
         print('Controle[%d] - Conteudo = %s'%(i,superControle.controles[i].fita.conteudo));
-    
+
 #----------------- Fim do Debug Visual --------------
 
 
