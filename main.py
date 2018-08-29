@@ -3,17 +3,64 @@ import string
 
 from classes.fita import Fita
 from classes.estado import *
-from classes.controle import Controle
+from classes.controle import *
+from copy import deepcopy
 
-def run(control, fita):
+def run(control, SuperControle, SuperEstado):
+    fita = control.getFita()
+    print('Controler Atual [%d] -------- \n'%SuperControle.getAtual())
+    while(1):
+
+        #input('Pressione Qualquer Tecla para avançar!')
+        tmp = 0
+        possiveistransicoes = list()
+        controle = control.estados[control.getInicio()]
+
+        for i in range(len(control.fim)):
+            if control.estados[control.getInicio()].getNome() == str(control.fim[i]): #Se o Inicio esta em um dos Estados de Fim
+                print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ ENCONTROU O ESTADO FINAL [%s]"%(control.fim[i]))
+                print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Controler [%d] encontrou fim!\n"%(SuperControle.getAtual()))
+                return 0 #encontrou
+
+        print(fita)
+
+        for i in range(len(controle.trans)):
+
+            if fita.getConteudo() == controle.trans[i].getDado() :
+                tmp = tmp + 1
+                possiveistransicoes.append(i)
+
+        if tmp == 0 : #Se deu 0 não achou nenhuma transição naquele estado
+            print("###################################Controler [%d] não encontrou fim/travou em um Estado!"%(SuperControle.getAtual()))
+            print("###################################Estado [%s] Não encontrou nenhuma Transição!\n"%(controle.getNome()))
+            return 1 #não existe transicoes disponiveis (Crashou)
+
+        if tmp > 1 : #achou mais de uma transição
+            for i in range(1,len(possiveistransicoes)): #adiciona no Vetor do SuperControle
+                print('----------------------------------------------ADICIONOU FILHO')
+                control2 = Controle(control.getInicio(), SuperEstado.getEstados(), SuperEstado.getFinais(),deepcopy(fita))
+                control2.setInicio(controle.trans[possiveistransicoes[i]].getNextState())
+                control2.fita.mover(controle.trans[possiveistransicoes[i]].getEscrever(),controle.trans[possiveistransicoes[1]].getDirecao())
+                SuperControle.addControle(control2)
+
+        fita.mover(controle.trans[possiveistransicoes[0]].getEscrever(),controle.trans[possiveistransicoes[0]].getDirecao()) #Continua fazendo a que estava fazendo
+        control.setInicio(controle.trans[possiveistransicoes[0]].getNextState())
+        print('Estado Atual [%d] -Antigo [%s] -  Foi Escrito [%s] - A Direção [%s]'%(control.getInicio(),controle.trans[possiveistransicoes[0]].getDado(), controle.trans[possiveistransicoes[0]].getEscrever(),controle.trans[possiveistransicoes[0]].getDirecao()))
+        pass
+    print(fita)
+
+def run2(control, fita):
     parada = 1
+
+
     while(parada):
         controle = control.estados[control.getInicio()]
         for i in range(len(control.fim)):
             if control.estados[control.getInicio()].getNome() == str(control.fim[i]): #Se o Inicio esta em um dos Estados de Fim
                 parada = 0
                 print("ENCONTROU O ESTADO FINAL [%s]"%(control.fim[i]))
-                exit(0)
+                #exit(0)
+                return 0
         if parada != 0:
             print(fita)
             for i in range(len(controle.trans)):
@@ -27,6 +74,8 @@ def run(control, fita):
     print(fita)
 
 def setup():
+
+#----------------- Começo do Scraping --------------
     arq = sys.argv[1]
     entrada = sys.argv[2]
     entrada = entrada.replace(" ", "")
@@ -67,10 +116,10 @@ def setup():
     est = list()
     for i in range(len(estados)):
         est.append(Estado(str(estados[i])))
-        
+
     superEstados = SuperEstado(est, finais);
 
-    control = Controle(inicio, superEstados.getEstados(), superEstados.getFinais())
+    control = Controle(inicio, superEstados.getEstados(), superEstados.getFinais(),fita)
 
     line = f.readline() #Linha 7 - Quantidade de Fitas
 
@@ -84,11 +133,27 @@ def setup():
         transicao = Transicao(trans[2], trans[3], trans[4], next)
         control.estados[pos].addTransicao(transicao)
 
-#    for i in range(len(control.estados)):
-#        for j in range(len(control.estados[i].trans)):
-#            print("Sou o estado %d" %(i),  control.estados[i].trans[j])
+    superControle = SuperControle()
+    superControle.addControle(control)
 
-    run(control, fita)
+#----------------- Fim do Scraping --------------
+
+
+#----------------- Começo do Run --------------
+    while(run(superControle.getControle(), superControle, superEstados)):
+        superControle.addAtual()
+#----------------- Fim do Run -----------------
+
+
+#----------------- Começo do Debug Visual --------------
+    superControle.addAtual()
+    superControle.atual = superControle.getAtual()-1
+
+    for i in range(len(superControle.controles)):
+        print('Controle[%d] - Conteudo = %s'%(i,superControle.controles[i].fita.conteudo));
+    
+#----------------- Fim do Debug Visual --------------
+
 
 def main():
     setup()
