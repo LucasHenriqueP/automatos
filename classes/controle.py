@@ -14,6 +14,7 @@ class SuperControle:
 
     def getControle(self):
         return self.controles[self.atual]
+        
 class Controle:
     def __init__(self, inicio, estados, fim, fita):
         self.inicio = inicio

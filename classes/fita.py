@@ -5,7 +5,7 @@ class Fita:
         self.alfabeto = alfabeto
         self.branco = branco
     def __str__(self):
-        return "Conteudo da Fita é %s\nE a cabeça de leitura está na posição %d" % (self.conteudo, self.pos)
+        return "Conteudo da Fita é %s\nE a cabeça de leitura está na posição %d \n" % (self.conteudo, self.pos)
     def getBranco(self):
         return self.branco
     def getConteudo(self):
@@ -30,4 +30,3 @@ class Fita:
             else:
                 self.setConteudo(novo)
                 self.pos -= 1
-                
