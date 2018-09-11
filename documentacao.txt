@@ -1,0 +1,9 @@
+da linha 54 até a linha 114, é feito a leitura do arquivo de entrada, coletando as informaçãoes necessarias para a maquina funcionar
+
+Depois a função run é chamada, é passado pra essa função um controle, que será executado, um supercontrole que é uma classe que contém todas as possiveis ramificações da execução.
+Também é passado um superEstado que contém todos os possiveis estados do arquivo que está sendo processado.
+
+Dentro da função run é verificado se o estado em que se encontra a execução é um estado final, se for acaba aquela execução.
+Se não for um estado final, é feito uma verificação para saber quantas possiveis execuções podem ser feitas a partir daquele estado
+e essas outras possiveis execuções são adicionadas a uma lista, para depois serem executadas. Mas se não encontroar nenhuma possivel transição
+aquela execução é terminada.
