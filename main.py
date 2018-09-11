@@ -116,7 +116,7 @@ def setup():
 
 
 #----------------- Começo do Run --------------
-    while(run(superControle.getControle(), superControle, superEstados)):
+    while(run(superControle.getControle(), superControle, superEstados) and len(superControle.controles) > superControle.getAtual()+1):
         superControle.addAtual()
 #----------------- Fim do Run -----------------
 
