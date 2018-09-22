@@ -1,6 +1,6 @@
-# :computer:Maquina de Turing - Linguagens Formais, Automatos e Computabilidade 
+# :computer:Maquina de Turing de Pilha- Linguagens Formais, Automatos e Computabilidade 
 
-Projeto de implementação de uma [Maquina de Turing](https://en.wikipedia.org/wiki/Turing_machine) para a disciplina de Linguagens Formais, Automatos e Computabilidade.
+Projeto de implementação de uma [Maquina de Turing de Pilha](https://en.wikipedia.org/wiki/Turing_machine) para a disciplina de Linguagens Formais, Automatos e Computabilidade.
 
 ## Como Executar 🚀
 	
@@ -8,5 +8,5 @@ Projeto de implementação de uma [Maquina de Turing](https://en.wikipedia.org/w
 
   Exemplo:
 
-	$python3 main.py add.txt 001+001
+	$python3 main.py a.txt "aaa"
 	
