@@ -14,6 +14,7 @@ class machine:
         self.pos_pilha = pos_pilha
         self.branco_pilha = branco_pilha
         self.alfabeto_pilha = list(alfabeto_pilha)
+        self.pilhavazia = pilha #Recebe de Inicio o Z
         #--- Fim da Pilha
 
         #--- Começo Estados
@@ -21,6 +22,12 @@ class machine:
         self.fim = fim #lista inteiros
         self.atual = atual #indice
         #--- Fim Estados
+
+    def getPilhaVazia(self):
+        if self.pilhavazia == self.getPilha():
+            return 1
+        else:
+            return -1
 
     def getFita(self): #Pega todo o Conteudo da Fita
         return self.fita

@@ -56,10 +56,10 @@ def setup():
 
 def run(machine):
 
-    while (machine.getEstadoAtual().getNome() != machine.getFim().getNome()):
+    while (machine.getEstadoAtual().getNome() != machine.getFim().getNome() and machine.getPilhaVazia() == -1):
         print('Pilha %s '%machine.getPilha())
         print('Estado Atual: %s'%machine.getEstadoAtual().getNome())
-        if((machine.getPosFita() != machine.getBrancoF())):
+        if((machine.getPosFita() != machine.getBrancoF()) and machine.getPilhaVazia() == -1):
 
             if (machine.verificarT(machine.getPosFita(),machine.getPosPilha()) != -1):
                 print('.')
