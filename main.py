@@ -21,7 +21,7 @@ def setup():
     branco = line
 
     line = f.readline() #Linha 4 - Simbolo Inicial da Pilha
-    simboloInicial = line
+    simboloInicial = line.replace("\n", '')
 
     line = f.readline() #Linha 5 - Conjunto de Estados
     line = line.replace("\n", "")
@@ -29,39 +29,51 @@ def setup():
     estados.sort() #Ordena os Estados
 
     line = f.readline() #Linha 6 - Estado Inicial
-    inicio = line
+    inicio = line.replace("\n", "")
 
     line = f.readline() #Linha 7 - Estado Fnal
-    fim = line
+    fim = line.replace("\n", "")
 
     est = list()
     for i in range(len(estados)):
         est.append(Estado(str(estados[i])))
 
-    #line = f.readline() #Linha 8 - Transiçoes
     for line in f:
         trans = line.replace("\n", '')
         trans = trans.split(" ")
         pos = trans[0]
-
-        transicao = Transicao(trans[1], trans[2], trans[4], trans[3])
+        nextState = estados.index(trans[3]) #Trabalho com o Indice nao o Nome
+        transicao = Transicao(trans[1], trans[2], trans[4], nextState)
         est[estados.index(pos)].addTransicao(transicao)
 
+    inicio = estados.index(inicio)
+    fim = estados.index(fim)
     m = machine(entrada,0 ,"B" , alfaFita, simboloInicial, 0, branco, alfaPilha, est, fim, inicio)
 
 #----------------- Fim do Scraping --------------
 
-    print(m.getFita())
-    print(m.getBrancoP())
     run(m)
 
 def run(machine):
-    
-    while (machine.getPosFita() != 'B'):
 
-        print(machine.getPosFita())
-        machine.setProxFita()
+    while (machine.getEstadoAtual().getNome() != machine.getFim().getNome()):
+        print('Pilha %s '%machine.getPilha())
+        print('Estado Atual: %s'%machine.getEstadoAtual().getNome())
+        if((machine.getPosFita() != machine.getBrancoF())):
 
+            if (machine.verificarT(machine.getPosFita(),machine.getPosPilha()) != -1):
+                print('.')
+            else:
+                print("NAO ACHOU TRANSIÇÃO")
+                exit(1)
+
+        if machine.getEstadoAtual().getNome() == machine.getFim().getNome():
+            print('ACHOU ESTADO FINAL [%s]'%machine.getEstadoAtual().getNome())
+            exit(1)
+
+        if((machine.getPosFita() == machine.getBrancoF())):
+            print('CHEGOU AO FIM DA FITA')
+            exit(1)
 
 
 def main():
