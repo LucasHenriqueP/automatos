@@ -53,7 +53,16 @@ def setup():
 
     print(m.getFita())
     print(m.getBrancoP())
-    print(m.estados[0].trans[0])
+    run(m)
+
+def run(machine):
+    
+    while (machine.getPosFita() != 'B'):
+
+        print(machine.getPosFita())
+        machine.setProxFita()
+
+
 
 def main():
     setup();

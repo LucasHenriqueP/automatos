@@ -6,6 +6,7 @@ class machine:
         self.pos_fita = pos_fita
         self.branco_fita = branco_fita
         self.alfabeto_fita = list(alfabeto_fita)
+        self.fita.append(self.branco_fita) #insere um Branco no Fim da Fita
         #----- Fim Fita
 
         #---- Comeco da Pilha
@@ -21,13 +22,17 @@ class machine:
         self.atual = atual #indice
         #--- Fim Estados
 
-    def getFita(self):
+    def getFita(self): #Pega todo o Conteudo da Fita
         return self.fita
 
-    def getBrancoP(self):
-        return self.branco_pilha
+    def getPosFita(self): #Pega o Elemento que a Cabeça da Fita esta apontando
+        return self.fita[self.pos_fita]
 
-    def searchNome(self, nome):
-        lista_nomes.index('Gomes')
-        print('aaaaa')
-        print(self.nome.index(nome))
+    def setProxFita(self): #Cabeça Avança
+        self.pos_fita += 1
+
+    def getPosPilha(self): #Pega o Elemento que esta no Topo da Pilha
+        return self.pilha[self.pos_pilha]
+
+    def getBrancoP(self): #Saber qual é o Branco no caso o 'Z'
+        return self.branco_pilha
