@@ -81,16 +81,24 @@ def run2(machine):
 
 def run(machine):
     while ( (machine.getPosFita() != machine.getBrancoF()) and ((machine.getEstadoAtual().getNome() != machine.getFim().getNome()) or (machine.getPilhaVazia() == -1) ) ):
-        print('Pilha %s '%machine.getPilha())
-        print('Estado Atual: %s'%machine.getEstadoAtual().getNome())
+        print('-FITA [%s] '%machine.getPosFita())
+        print('-Pilha %s '%machine.getPilha())
+        print('-Estado Atual: %s'%machine.getEstadoAtual().getNome())
+        print('\n')
         existeTrans = machine.verificarT(machine.getPosFita(),machine.getPosPilha())
 
-    print('\nPilha %s '%machine.getPilha())
-    print('Estado Atual: %s'%machine.getEstadoAtual().getNome())
+    print('--FITA [%s] '%machine.getPosFita())
+    print('--Pilha %s '%machine.getPilha())
+    print('--Estado Atual: %s'%machine.getEstadoAtual().getNome())
 
     if machine.getEstadoAtual().getNome() == machine.getFim().getNome() and machine.getPilhaVazia() == -1:
         print('ACHOU ESTADO FINAL [%s]'%machine.getEstadoAtual().getNome())
         exit(1)
+
+    print('\n\n--aab : %d '%machine.getPilhaVazia())
+    print('--TOPO PILHA : %s '%machine.getPosPilha())
+    print('--PILHA INTEIRA: %s '%machine.getPilha())
+    print('--PILHA TAM: %d '%machine.pos_pilha)
     if(((machine.getPosFita() == machine.getBrancoF()) and machine.getPilhaVazia() == -1)):
         print('CHEGOU AO FIM DA FITA')
         exit(1)

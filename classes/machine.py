@@ -24,6 +24,8 @@ class machine:
         #--- Fim Estados
 
     def getPilhaVazia(self):
+        print('Dentro do getPilhaVazia: ')
+        print('pilhavazia (%s != %s ) <-- getPosPilha '%(self.pilhavazia,self.getPosPilha()))
         if self.pilhavazia != self.getPosPilha():
             return 1
         else:
@@ -59,13 +61,15 @@ class machine:
 
     def pop(self):
         self.pilha.pop()
-        if self.pos_pilha-1 != -1:
-            self.pos_pilha -= 1
+        self.pos_pilha = len(self.pilha)-1
 
     def push(self, valor):
-        self.pilha.pop()
+        if valor[len(valor)-1] != self.pilhavazia:
+            self.pilha.pop()
+
         for i in range(len(valor), 0, -1):
-            self.pilha.append(valor[i-1])
+            if valor[i-1] != self.pilhavazia:
+                self.pilha.append(valor[i-1])
             if self.pos_pilha+1 != len(valor):
                 self.pos_pilha += 1
 
@@ -76,10 +80,14 @@ class machine:
             return -1
 
         if self.getEstadoAtual().trans[retorno].getTroca() == self.getBrancoP(): #acaso dor Episoln
+            print('Estado Atual ANTES POP: %s'%self.getEstadoAtual().getNome())
             self.pop()
+            print('PILHA DEPOIS DO POP %s '%self.getPilha())
         else : #Caso nao for Episolon
-            self.push(self.getEstadoAtual().trans[retorno].getTroca())
 
+            print('Estado Atual ANTES PUSH: %s'%self.getEstadoAtual().getNome())
+            self.push(self.getEstadoAtual().trans[retorno].getTroca())
+            print('PILHA DEPOIS DO PUSH %s '%self.getPilha())
         self.atual = self.getEstadoAtual().trans[retorno].getNextState() # Mudo para o Proximo Estado
 
         self.setProxFita()
