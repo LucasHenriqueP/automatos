@@ -9,10 +9,20 @@ class Estado:
     def addTransicao(self, trans):
         self.trans.append(trans)
 
-    def isTransicao(self, c_fita, c_pilha):
+    def isTransicao(self, c_fita, c_pilha, episolon):
         for i in range(len(self.trans)):
+
+            if self.trans[i].getCFita() == episolon:
+                if (self.trans[i].getCPilha() == c_pilha):
+                    return i #Para fazer Nao deterministico Esse I devera ser gravado em uma LISTA
+
+            if self.trans[i].getCPilha() == episolon:
+                if (self.trans[i].getCPilha() == c_pilha):
+                    return i #Para fazer Nao deterministico Esse I devera ser gravado em uma LISTA
+
             if (self.trans[i].getCFita() == c_fita) and (self.trans[i].getCPilha() == c_pilha):
                 return i #Para fazer Nao deterministico Esse I devera ser gravado em uma LISTA
+
         return -1
 
 

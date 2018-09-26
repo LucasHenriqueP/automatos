@@ -54,12 +54,13 @@ def setup():
 
     run(m)
 
-def run(machine):
+def run2(machine):
 
-    while (machine.getEstadoAtual().getNome() != machine.getFim().getNome() and machine.getPilhaVazia() == -1):
+    while (machine.getEstadoAtual().getNome() != machine.getFim().getNome() or (machine.getPosFita() != machine.getBrancoF())):
         print('Pilha %s '%machine.getPilha())
         print('Estado Atual: %s'%machine.getEstadoAtual().getNome())
-        if((machine.getPosFita() != machine.getBrancoF()) and machine.getPilhaVazia() == -1):
+
+        if((machine.getPosFita() != machine.getBrancoF()) or machine.getPilhaVazia() == -1):
 
             if (machine.verificarT(machine.getPosFita(),machine.getPosPilha()) != -1):
                 print('.')
@@ -67,13 +68,33 @@ def run(machine):
                 print("NAO ACHOU TRANSIÇÃO")
                 exit(1)
 
-        if machine.getEstadoAtual().getNome() == machine.getFim().getNome():
-            print('ACHOU ESTADO FINAL [%s]'%machine.getEstadoAtual().getNome())
-            exit(1)
+        #print('Pilha %s '%machine.getPilha())
+        #print('Estado Atual: %s'%machine.getEstadoAtual().getNome())
 
-        if((machine.getPosFita() == machine.getBrancoF())):
-            print('CHEGOU AO FIM DA FITA')
-            exit(1)
+        #if machine.getEstadoAtual().getNome() == machine.getFim().getNome() and machine.getPilhaVazia() == -1:
+        #    print('ACHOU ESTADO FINAL [%s]'%machine.getEstadoAtual().getNome())
+        #    exit(1)
+
+        #if((machine.getPosFita() == machine.getBrancoF()) and machine.getPilhaVazia() == -1):
+        #    print('CHEGOU AO FIM DA FITA')
+        #    exit(1)
+
+def run(machine):
+    while ( (machine.getPosFita() != machine.getBrancoF()) and ((machine.getEstadoAtual().getNome() != machine.getFim().getNome()) or (machine.getPilhaVazia() == -1) ) ):
+        print('Pilha %s '%machine.getPilha())
+        print('Estado Atual: %s'%machine.getEstadoAtual().getNome())
+        existeTrans = machine.verificarT(machine.getPosFita(),machine.getPosPilha())
+
+    print('\nPilha %s '%machine.getPilha())
+    print('Estado Atual: %s'%machine.getEstadoAtual().getNome())
+
+    if machine.getEstadoAtual().getNome() == machine.getFim().getNome() and machine.getPilhaVazia() == -1:
+        print('ACHOU ESTADO FINAL [%s]'%machine.getEstadoAtual().getNome())
+        exit(1)
+    if(((machine.getPosFita() == machine.getBrancoF()) and machine.getPilhaVazia() == -1)):
+        print('CHEGOU AO FIM DA FITA')
+        exit(1)
+
 
 
 def main():

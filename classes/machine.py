@@ -24,7 +24,7 @@ class machine:
         #--- Fim Estados
 
     def getPilhaVazia(self):
-        if self.pilhavazia == self.getPilha():
+        if self.pilhavazia != self.getPosPilha():
             return 1
         else:
             return -1
@@ -70,16 +70,18 @@ class machine:
                 self.pos_pilha += 1
 
     def verificarT(self, c_fitaAtual, c_pilhaAtual):
-        retorno = self.getEstadoAtual().isTransicao(c_fitaAtual,c_pilhaAtual)
+        retorno = self.getEstadoAtual().isTransicao(c_fitaAtual,c_pilhaAtual, self.getBrancoP())
 
         if retorno == -1: #Caso Nao achar nenhuma trasição naquele estado
             return -1
 
         if self.getEstadoAtual().trans[retorno].getTroca() == self.getBrancoP(): #acaso dor Episoln
             self.pop()
-        else: #Caso nao for Episolon
+        else : #Caso nao for Episolon
             self.push(self.getEstadoAtual().trans[retorno].getTroca())
 
         self.atual = self.getEstadoAtual().trans[retorno].getNextState() # Mudo para o Proximo Estado
 
         self.setProxFita()
+
+        return 1
