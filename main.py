@@ -4,8 +4,18 @@ from copy import deepcopy
 from classes.machine import *
 from classes.estados import *
 
+class bcolors:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+
 def setup():
-#----------------- Começo do Scraping --------------
+    #----------------- Começo do Scraping --------------
     arq = sys.argv[1]
     entrada = sys.argv[2]
     entrada = entrada.replace(" ", "")
@@ -50,7 +60,7 @@ def setup():
     fim = estados.index(fim)
     m = machine(entrada,0 ,"B" , alfaFita, simboloInicial, 0, branco, alfaPilha, est, fim, inicio)
 
-#----------------- Fim do Scraping --------------
+    #----------------- Fim do Scraping --------------
 
     run(m)
 
@@ -60,7 +70,7 @@ def run2(machine):
         print('Pilha %s '%machine.getPilha())
         print('Estado Atual: %s'%machine.getEstadoAtual().getNome())
 
-        if((machine.getPosFita() != machine.getBrancoF()) or machine.getPilhaVazia() == -1):
+        if((machine.getPosFita() != machine.getBrancoF()) or machine.isPilhaVazia() == -1):
 
             if (machine.verificarT(machine.getPosFita(),machine.getPosPilha()) != -1):
                 print('.')
@@ -71,16 +81,16 @@ def run2(machine):
         #print('Pilha %s '%machine.getPilha())
         #print('Estado Atual: %s'%machine.getEstadoAtual().getNome())
 
-        #if machine.getEstadoAtual().getNome() == machine.getFim().getNome() and machine.getPilhaVazia() == -1:
+        #if machine.getEstadoAtual().getNome() == machine.getFim().getNome() and machine.isPilhaVazia() == -1:
         #    print('ACHOU ESTADO FINAL [%s]'%machine.getEstadoAtual().getNome())
         #    exit(1)
 
-        #if((machine.getPosFita() == machine.getBrancoF()) and machine.getPilhaVazia() == -1):
+        #if((machine.getPosFita() == machine.getBrancoF()) and machine.isPilhaVazia() == -1):
         #    print('CHEGOU AO FIM DA FITA')
         #    exit(1)
 
 def run(machine):
-    while ( (machine.getPosFita() != machine.getBrancoF()) and ((machine.getEstadoAtual().getNome() != machine.getFim().getNome()) or (machine.getPilhaVazia() == -1) ) ):
+    while ( (machine.getPosFita() != machine.getBrancoF()) and ((machine.getEstadoAtual().getNome() != machine.getFim().getNome()) or (machine.isPilhaVazia() == -1) ) ):
         print('-FITA [%s] '%machine.getPosFita())
         print('-Pilha %s '%machine.getPilha())
         print('-Estado Atual: %s'%machine.getEstadoAtual().getNome())
@@ -91,16 +101,21 @@ def run(machine):
     print('--Pilha %s '%machine.getPilha())
     print('--Estado Atual: %s'%machine.getEstadoAtual().getNome())
 
-    if machine.getEstadoAtual().getNome() == machine.getFim().getNome() and machine.getPilhaVazia() == -1:
-        print('ACHOU ESTADO FINAL [%s]'%machine.getEstadoAtual().getNome())
+    if machine.getEstadoAtual().getNome() == machine.getFim().getNome() and (machine.getPosFita() == machine.getBrancoF()):
+        print(bcolors.OKGREEN+'\nACHOU ESTADO FINAL [%s]'%machine.getEstadoAtual().getNome()+bcolors.ENDC)
         exit(1)
 
-    print('\n\n--aab : %d '%machine.getPilhaVazia())
+    print('\n\n--aab : %d '%machine.isPilhaVazia())
     print('--TOPO PILHA : %s '%machine.getPosPilha())
     print('--PILHA INTEIRA: %s '%machine.getPilha())
     print('--PILHA TAM: %d '%machine.pos_pilha)
-    if(((machine.getPosFita() == machine.getBrancoF()) and machine.getPilhaVazia() == -1)):
-        print('CHEGOU AO FIM DA FITA')
+
+    if(((machine.getPosFita() == machine.getBrancoF()) and machine.isPilhaVazia() == -1)):
+        print(bcolors.OKGREEN+'\nCHEGOU AO FIM DA FITA'+bcolors.ENDC)
+        exit(1)
+
+    elif machine.isPilhaVazia() == 1:
+        print(bcolors.FAIL+'\nNÃO ACHOU TRANSAÇÃO'+bcolors.ENDC)
         exit(1)
 
 
