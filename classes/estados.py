@@ -17,11 +17,15 @@ class Estado:
                     return i #Para fazer Nao deterministico Esse I devera ser gravado em uma LISTA
 
             if self.trans[i].getCPilha() == episolon:
-                if (self.trans[i].getCPilha() == c_pilha):
+                if (self.trans[i].getCFita() == c_fita):
                     return i #Para fazer Nao deterministico Esse I devera ser gravado em uma LISTA
 
             if (self.trans[i].getCFita() == c_fita) and (self.trans[i].getCPilha() == c_pilha):
                 return i #Para fazer Nao deterministico Esse I devera ser gravado em uma LISTA
+
+            if (self.trans[i].getCFita() == episolon) and (self.trans[i].getCPilha() == episolon):
+                return i #Para fazer Nao deterministico Esse I devera ser gravado em uma LISTA
+
 
         return -1
 
