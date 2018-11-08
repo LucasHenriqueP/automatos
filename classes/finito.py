@@ -1,5 +1,5 @@
 class Finito:
-    def init(self, alfabeto, epson, inicial, final):
+    def __init__(self, alfabeto, epson, inicial, final):
         self.alfabeto = alfabeto
         self.epson = epson
         self.inicial = inicial
@@ -8,4 +8,4 @@ class Finito:
         pass
 
     def addEstado(self, estado):
-        self.estados.append(estado)    
+        self.estados.append(estado)

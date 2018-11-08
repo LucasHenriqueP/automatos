@@ -38,7 +38,7 @@ def setup():
 
         transicao = Transicao(trans[0], trans[1], trans[2])
         est[estados.index(pos)].addTransicao(transicao)
-        
+
     automatoFinito = Finito(alfabetoEntrada, epsilon, estadoInicio, estadosAceitacao)
     automatoFinito.addEstado(est)
 
