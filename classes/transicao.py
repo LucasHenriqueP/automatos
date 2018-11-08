@@ -1,14 +1,13 @@
 class Transicao:
-    def init(self, estadoAtual, proximoEstado, simbolo):
+    def __init__(self, estadoAtual,simbolo, proximoEstado ):
         self.estadoAtual = estadoAtual
-        self.proximoEstado = proximoEstado
         self.simbolo = simbolo
+        self.proximoEstado = proximoEstado
         pass
 
     def isValida(self, simb):
-        if self.simbolo = simb:
+        if self.simbolo == simb:
             return True
         else:
             return False
-            pass    
-
+            pass

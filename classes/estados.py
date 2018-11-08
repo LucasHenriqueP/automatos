@@ -1,8 +1,8 @@
 class Estado:
-    def init(self, nome):
+    def __init__(self, nome):
         self.nome = nome
         self.transicao = []
         pass
 
     def addTransicao(self, transicao):
-        self.transicao.append(transicao)    
+        self.transicao.append(transicao)
