@@ -1,6 +1,6 @@
 class Estado:
     def __init__(self, nome):
-        self.nome = nome
+        self.c = nome
         self.transicao = []
         pass
 

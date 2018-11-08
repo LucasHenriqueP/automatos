@@ -34,7 +34,7 @@ def setup():
         trans = line.replace("\n",'')
         trans = line.split(" ")
         pos = trans[0]
-        
+
         transicao = Transicao(trans[0], trans[1], trans[2])
         est[estados.index(pos)].addTransicao(transicao)
 
