@@ -2,6 +2,7 @@ import sys
 import string
 from classes.estados import *
 from classes.transicao import *
+from classes.finito import *
 
 def setup():
     arq = sys.argv[1]
@@ -37,6 +38,9 @@ def setup():
 
         transicao = Transicao(trans[0], trans[1], trans[2])
         est[estados.index(pos)].addTransicao(transicao)
+        
+    automatoFinito = Finito(alfabetoEntrada, epsilon, estadoInicio, estadosAceitacao)
+    automatoFinito.addEstado(est)
 
 def main():
     setup()
