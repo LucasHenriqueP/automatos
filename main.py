@@ -72,7 +72,7 @@ def run(finito, entrada):
 
     noTransition = 1
     estadoFinal = 0
-    while(1): #talvez seja um or
+    while(1):
 
         if(len(entrada) == 0 and estadoFinal == 1):
             print("Sem entrada e encontrou estado final")
@@ -83,25 +83,22 @@ def run(finito, entrada):
             break
         noTransition = 0
 
-
         for trans in estAtual.transicao:
+            if len( entrada ) != 0:
+                if(  trans.isValida(entrada[0])) or (trans.isValida(finito.epson) ):
+                    noTransition = noTransition + 1
+                    if(not(trans.isValida(finito.epson))):
+                        entrada.pop(0)
 
-            if(trans.isValida(entrada[0])) or (trans.isValida(finito.epson)):
-                noTransition = noTransition + 1
-                if(not(trans.isValida(finito.epson))):
-                    entrada.pop(0)
+            for final in finito.final:
+                print("Estado FINAL: %s ATUAL %s" %(final,estAtual.nome))
+                if estAtual.nome == final:
+                    print("Encontrou um Estado Final")
+                    estadoFinal = 1
 
-                for final in finito.final:
-                    print("Estado FINAL: %s ATUAL %s" %(final,estAtual.nome))
-                    if estAtual.nome == final:
-                        print("Encontrou um Estado Final")
-                        estadoFinal = 1
-
-                for estad in finito.estados:
-                    for est in estad:
-                        estAtual = estad[trans.getproximoEstado()]
-
-
+            for estad in finito.estados:
+                for est in estad:
+                    estAtual = estad[trans.getproximoEstado()]
 
     print("Entrada: %s" %(entrada))
     print("Estado Atual: %s" %(estAtual.nome))
