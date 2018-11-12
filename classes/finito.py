@@ -1,8 +1,7 @@
 class Finito:
-    def __init__(self, alfabeto, epson, inicial, final):
+    def __init__(self, alfabeto, epson, final):
         self.alfabeto = alfabeto
         self.epson = epson
-        self.inicial = inicial
         self.final = final
         self.estados = []
         pass

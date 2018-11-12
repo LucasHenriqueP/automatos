@@ -4,6 +4,7 @@ import string
 from classes.estados import *
 from classes.transicao import *
 from classes.finito import *
+from classes.contexto import *
 
 def setup():
     arq = sys.argv[1]
@@ -46,49 +47,69 @@ def setup():
         transicao = Transicao(trans[0], trans[1], nextS)
         est[estados.index(pos)].addTransicao(transicao)
 
-    automatoFinito = Finito(alfabetoEntrada, epsilon, estadoInicio, estadosAceitacao)
+    automatoFinito = Finito(alfabetoEntrada, epsilon, estadosAceitacao)
     automatoFinito.addEstado(est)
     for Estados in automatoFinito.estados[0]:
         print('\n')
         print(Estados.nome)
         for tr in Estados.transicao:
             print(tr)
-    run(automatoFinito, entrada)
+
+    cont = Contexto(entrada,estados.index(estadoInicio))
+    contextos = list()
+    contextos.append(cont)
+
+    run(automatoFinito, contextos)
 
 
-def run(finito, entrada):
+def run(finito, contextos):
 
-    for estado in finito.estados[0]:
-        if estado.nome == finito.inicial:
-            estAtual = estado
-            break
+    while(len(contextos) > 0):
 
-    print("Estado inicial: %s" %(estAtual.nome))
-    entrada = list(entrada)
-    print(entrada)
+        i = contextos[0].estadoAtual
+        estAtual = finito.estados[0]
+        estAtual = estAtual[i]
+        print("Estado inicial: %s" %(estAtual.nome))
+        entrada = contextos[0].entrada
+        print(entrada)
 
-#While  #Ou estado de aceitacao ou não houver mais transicao e a fita e fita vazia
+        noTransition = 1
+        estadoFinal = 0
+
+        while(1):
+
+            if(len(entrada) == 0 and estadoFinal == 1):
+                print("Fim da Fita e encontrou Estado final")
+                exit(0)
+
+            if(noTransition == 0):
+                print("Sem transicao")
+                contextos.pop(0)
+                break
+
+            noTransition = 0
+
+            for trans in estAtual.transicao:
+                if len( entrada ) != 0:
+                    if(  trans.isValida(entrada[0])) or (trans.isValida(finito.epson) ):
+                        noTransition = noTransition + 1
 
 
-    noTransition = 1
-    estadoFinal = 0
-    while(1):
 
-        if(len(entrada) == 0 and estadoFinal == 1):
-            print("Sem entrada e encontrou estado final")
-            break
 
-        if(noTransition == 0):
-            print("Sem transica")
-            break
-        noTransition = 0
 
-        for trans in estAtual.transicao:
-            if len( entrada ) != 0:
-                if(  trans.isValida(entrada[0])) or (trans.isValida(finito.epson) ):
-                    noTransition = noTransition + 1
-                    if(not(trans.isValida(finito.epson))):
-                        entrada.pop(0)
+            for trans in estAtual.transicao:
+                if len( entrada ) != 0:
+                    if(  trans.isValida(entrada[0])) or (trans.isValida(finito.epson) ):
+                        noTransition = noTransition + 1
+                        if(not(trans.isValida(finito.epson))):
+                            entrada.pop(0)
+
+            for estad in finito.estados:
+                for est in estad:
+                    estAtual = estad[trans.getproximoEstado()]
+                        cont = Contexto(entrada,estados.index(estadoInicio))
+                        contextos.append(cont)
 
             for final in finito.final:
                 print("Estado FINAL: %s ATUAL %s" %(final,estAtual.nome))
@@ -96,13 +117,9 @@ def run(finito, entrada):
                     print("Encontrou um Estado Final")
                     estadoFinal = 1
 
-            for estad in finito.estados:
-                for est in estad:
-                    estAtual = estad[trans.getproximoEstado()]
-
-    print("Entrada: %s" %(entrada))
-    print("Estado Atual: %s" %(estAtual.nome))
-    print("Numero de Transições encontradas: %d" %(noTransition))
+        print("Entrada: %s" %(entrada))
+        print("Estado Atual: %s" %(estAtual.nome))
+        print("Numero de Transições encontradas: %d" %(noTransition))
 
 
 def main():
