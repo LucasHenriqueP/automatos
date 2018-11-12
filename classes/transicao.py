@@ -11,3 +11,6 @@ class Transicao:
         else:
             return False
             pass
+
+    def __str__(self):
+        return ("Do estado %s para o estado %s com o simbolo %s" %(self.estadoAtual, self.proximoEstado, self.simbolo))    

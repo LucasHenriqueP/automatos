@@ -1,5 +1,6 @@
 import sys
 import string
+
 from classes.estados import *
 from classes.transicao import *
 from classes.finito import *
@@ -12,7 +13,7 @@ def setup():
 
     alfabetoEntrada = f.readline() #Linha 1 - Alfabeto de Entrada
 
-    epsilon = f.readline() #Linha 2 - Símbolo a ser considerado para representar epsilon ou lambda
+    epsilon = f.readline() #Linha 2 - Simbolo a ser considerado para representar epsilon ou lambda
 
     line = f.readline() #Linha 3 - Conjunto de Estados
     line = line.replace("\n", "")
@@ -22,7 +23,7 @@ def setup():
     line = f.readline() #Linha 4 - Estado Inicial
     estadoInicio = line.replace("\n", "")
 
-    line = f.readline() #Linha 5 - Conjunto de Estados de Aceitação
+    line = f.readline() #Linha 5 - Conjunto de Estados de Aceitacao
     line = line.replace("\n", "")
     estadosAceitacao = line.split(" ")
     estadosAceitacao.sort() #Ordena os Estados
@@ -41,6 +42,32 @@ def setup():
 
     automatoFinito = Finito(alfabetoEntrada, epsilon, estadoInicio, estadosAceitacao)
     automatoFinito.addEstado(est)
+    for Estados in automatoFinito.estados[0]:
+        print('\n')
+        print(Estados.nome)
+        for tr in Estados.transicao:
+            print(tr)
+    run(automatoFinito, entrada)        
+
+
+def run(finito, entrada):
+    for estado in finito.estados[0]:
+        if estado.nome == finito.inicial:
+            estAtual = estado
+            break
+    print("Estado inicial: %s" %(estAtual.nome))
+    entrada = list(entrada)
+    print(entrada)
+    for trans in estAtual.transicao:
+        if(trans.isValida(entrada[0])):
+            entrada.pop()
+            for estado in finito.estados[0]:
+                if estado.nome == trans.proximoEstado:
+                    estAtual = estado
+
+    
+
+
 
 def main():
     setup()
