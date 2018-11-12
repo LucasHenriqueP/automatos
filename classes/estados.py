@@ -7,3 +7,5 @@ class Estado:
     def addTransicao(self, transicao):
         self.transicao.append(transicao)
 
+    def getNome(self):
+        return self.nome
