@@ -69,10 +69,21 @@ def run(finito, entrada):
 
 #While  #Ou estado de aceitacao ou não houver mais transicao e a fita e fita vazia
 
-    noTransition = 1
 
-    while(noTransition != 0 and len(entrada) != 0 ): #talvez seja um or
+    noTransition = 1
+    estadoFinal = 0
+    while(1): #talvez seja um or
+
+        if(len(entrada) == 0 and estadoFinal == 1):
+            print("Sem entrada e encontrou estado final")
+            break
+
+        if(noTransition == 0):
+            print("Sem transica")
+            break
         noTransition = 0
+
+
         for trans in estAtual.transicao:
 
             if(trans.isValida(entrada[0])) or (trans.isValida(finito.epson)):
@@ -80,18 +91,21 @@ def run(finito, entrada):
                 if(not(trans.isValida(finito.epson))):
                     entrada.pop(0)
 
+                for final in finito.final:
+                    print("Estado FINAL: %s ATUAL %s" %(final,estAtual.nome))
+                    if estAtual.nome == final:
+                        print("Encontrou um Estado Final")
+                        estadoFinal = 1
+
                 for estad in finito.estados:
                     for est in estad:
                         estAtual = estad[trans.getproximoEstado()]
 
 
+
     print("Entrada: %s" %(entrada))
-    print("Estado Novo: %s" %(estAtual.nome))
+    print("Estado Atual: %s" %(estAtual.nome))
     print("Numero de Transições encontradas: %d" %(noTransition))
-
-
-
-
 
 
 def main():
