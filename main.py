@@ -1,5 +1,6 @@
 import sys
 import string
+import copy
 
 from classes.estados import *
 from classes.transicao import *
@@ -49,16 +50,17 @@ def setup():
 
     automatoFinito = Finito(alfabetoEntrada, epsilon, estadosAceitacao)
     automatoFinito.addEstado(est)
+    '''
     for Estados in automatoFinito.estados[0]:
         print('\n')
         print(Estados.nome)
         for tr in Estados.transicao:
             print(tr)
-
+    '''
     cont = Contexto(entrada,estados.index(estadoInicio))
     contextos = list()
     contextos.append(cont)
-
+    print(automatoFinito.epson)
     run(automatoFinito, contextos)
 
 
@@ -70,56 +72,67 @@ def run(finito, contextos):
         estAtual = finito.estados[0]
         estAtual = estAtual[i]
         print("Estado inicial: %s" %(estAtual.nome))
-        entrada = contextos[0].entrada
+        entrada = list(contextos[0].entrada)
         print(entrada)
 
         noTransition = 1
         estadoFinal = 0
 
         while(1):
-
+            for final in finito.final:
+                #print("Estado FINAL: %s ATUAL %s" %(final,estAtual.nome))
+                if estAtual.nome == final:
+                    print("Encontrou um Estado Final")
+                    estadoFinal = 1
+            print("Estado Atual: %s" %(estAtual.nome))
+            print(entrada)
+            transicoes = list()
             if(len(entrada) == 0 and estadoFinal == 1):
                 print("Fim da Fita e encontrou Estado final")
                 exit(0)
 
-            if(noTransition == 0):
-                print("Sem transicao")
-                contextos.pop(0)
-                break
-
             noTransition = 0
 
             for trans in estAtual.transicao:
-                if len( entrada ) != 0:
+                if len( entrada ) > 0:
                     if(  trans.isValida(entrada[0])) or (trans.isValida(finito.epson) ):
+                        #print('ENTROOOOOOOOOOOOOOOOOOOU')
                         noTransition = noTransition + 1
+                        transicoes.append(trans)
+            if len(transicoes) == 0:
+                contextos.pop(0)
+                break
+            if(len(transicoes) > 1):          
+                for j in range(1, len( transicoes)):
+                    print(transicoes[j].simbolo)
+                    if(transicoes[j].simbolo != finito.epson):
+                        entrada2 = copy.deepcopy(entrada)
+                        entrada2.pop(0)
+                        cont = Contexto(entrada2, transicoes[j].proximoEstado)
+                        print("entrada2 %s" %(entrada2))
+                        print("Entrada: %s" %(entrada))
+                    else:
+                        entrada2 = copy.deepcopy(entrada)
+                        cont = Contexto(entrada2, transicoes[j].proximoEstado)
+                    contextos.append(cont)
 
 
 
-
-
-            for trans in estAtual.transicao:
-                if len( entrada ) != 0:
-                    if(  trans.isValida(entrada[0])) or (trans.isValida(finito.epson) ):
-                        noTransition = noTransition + 1
-                        if(not(trans.isValida(finito.epson))):
-                            entrada.pop(0)
-
+            '''
             for estad in finito.estados:
                 for est in estad:
-                    estAtual = estad[trans.getproximoEstado()]
-                        cont = Contexto(entrada,estados.index(estadoInicio))
+                        estAtual = estad[trans.getproximoEstado()]
+                        cont = Contexto(entrada,est.index(estadoInicio))
                         contextos.append(cont)
+            '''
+            if(transicoes[0].simbolo != finito.epson):
+                entrada.pop(0)
+            estAtual = finito.estados[0]
+            estAtual = estAtual[transicoes[0].proximoEstado]     
 
-            for final in finito.final:
-                print("Estado FINAL: %s ATUAL %s" %(final,estAtual.nome))
-                if estAtual.nome == final:
-                    print("Encontrou um Estado Final")
-                    estadoFinal = 1
-
-        print("Entrada: %s" %(entrada))
-        print("Estado Atual: %s" %(estAtual.nome))
-        print("Numero de Transições encontradas: %d" %(noTransition))
+        #print("Entrada: %s" %(entrada))
+            
+            print("Numero de Transicoes encontradas: %d" %(noTransition))
 
 
 def main():
