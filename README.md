@@ -8,4 +8,4 @@ Projeto de implementação de um [Autômato Finito Não Determinístico](https:/
 
   Exemplo:
 
-	$python3 main.py teste.txt abbc
+	$python3 main.py luc2.txt aab
